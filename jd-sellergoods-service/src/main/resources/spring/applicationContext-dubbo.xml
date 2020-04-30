@@ -12,7 +12,7 @@
     <dubbo:application name="JD-SellerGoods-Service"/>
 
     <!-- 暴露服务的端口号 -->
-    <dubbo:protocol name="dubbo" port="38080"/>
+    <dubbo:protocol name="dubbo" port="38888"/>
 
     <!--指定注册中心的地址-->
     <dubbo:registry address="zookeeper://192.168.126.131:2181"/>
