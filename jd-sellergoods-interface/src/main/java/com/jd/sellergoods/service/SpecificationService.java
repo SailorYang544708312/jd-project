@@ -1,5 +1,7 @@
 package com.jd.sellergoods.service;
 import java.util.List;
+import java.util.Map;
+
 import com.jd.pojo.TbSpecification;
 
 import com.jd.common.pojo.PageResult;
@@ -59,5 +61,6 @@ public interface SpecificationService {
 	 * @return
 	 */
 	public PageResult findPage(TbSpecification specification, int pageNum,int pageSize);
-	
+
+	List<Map> selectSpecList();
 }

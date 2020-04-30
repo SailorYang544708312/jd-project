@@ -1,5 +1,6 @@
 package com.jd.sellergoods.controller;
 import java.util.List;
+import java.util.Map;
 
 import com.jd.pojogroup.Specification;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -111,5 +112,9 @@ public class SpecificationController {
 	public PageResult search(@RequestBody TbSpecification specification, int page, int rows  ){
 		return specificationService.findPage(specification, page, rows);		
 	}
-	
+
+	@RequestMapping("selectSpecList")
+	public List<Map> selectSpecList(){
+		return specificationService.selectSpecList();
+	}
 }

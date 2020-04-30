@@ -1,5 +1,5 @@
  //控制层 
-app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService){	
+app.controller('typeTemplateController' ,function($scope,$controller,typeTemplateService,brandService,specificationService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -26,14 +26,22 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.findOne=function(id){				
 		typeTemplateService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
+				//将json字符串转成一个json对象
+				$scope.entity.brandIds = JSON.parse($scope.entity.brandIds);
+				$scope.entity.customAttributeItems = JSON.parse($scope.entity.customAttributeItems);
+				$scope.entity.specIds = JSON.parse($scope.entity.specIds);
+
 			}
 		);				
 	}
 	
 	//保存 
 	$scope.save=function(){				
-		var serviceObject;//服务层对象  				
+		var serviceObject;//服务层对象
+		$scope.entity.brandIds = JSON.stringify($scope.entity.brandIds);//将json对象转成字符串
+		$scope.entity.customAttributeItems = JSON.stringify($scope.entity.customAttributeItems);
+		$scope.entity.specIds = JSON.stringify($scope.entity.specIds);
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=typeTemplateService.update( $scope.entity ); //修改  
 		}else{
@@ -76,5 +84,44 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 			}			
 		);
 	}
-    
+
+	//定义select2需要用的数据
+	$scope.brandList = {data:[]};
+
+	//从后端抓取品牌列表
+	$scope.findBrandList = function () {
+		brandService.selectBrandList().success(function (response) {
+			$scope.brandList = {data:response};
+		})
+	}
+
+	$scope.specList = {data:[]};
+	$scope.findSpecList = function () {
+		specificationService.selectSpecList().success(function (response) {
+			$scope.specList = {data:response};
+		})
+	}
+
+	//新增扩展属性
+	$scope.addTableRow = function () {
+		$scope.entity.customAttributeItems.push({});
+	}
+
+	//删除扩展属性
+	$scope.delTableRow = function (index) {
+		$scope.entity.customAttributeItems.splice(index,1);
+	}
+
+	//对于json字符串，通过写一个方法 只将指定的key得到的value取出，最后拼接成一个字符串
+	$scope.jsonToString = function (jsonString,key) {
+		var json = JSON.parse(jsonString);
+		var value = "";
+		for (var i = 0; i <json.length ; i++) {
+			if (i>0){
+				value += ",";
+			}
+			value += json[i][key];
+		}
+		return value;
+	}
 });	

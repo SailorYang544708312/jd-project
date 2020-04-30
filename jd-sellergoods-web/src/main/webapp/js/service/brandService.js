@@ -33,4 +33,9 @@ app.service('brandService',function ($http) {
     this.search = function (page,rows,searchEntity) {
         return $http.post('../brand/search?page='+page+'&rows='+rows,searchEntity);
     }
+
+    //查询品牌--用于多选(select2)
+    this.selectBrandList = function () {
+        return $http.get('../brand/selectBrandList');
+    }
 });

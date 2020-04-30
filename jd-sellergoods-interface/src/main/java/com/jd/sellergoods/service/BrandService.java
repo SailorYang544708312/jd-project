@@ -4,6 +4,7 @@ import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbBrand;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
    //查询所有的品牌
@@ -27,4 +28,6 @@ public interface BrandService {
    //条件查询
    PageResult findPage(TbBrand tbBrand,Integer pageNow,Integer pageSize);
 
+   //品牌下拉框搜索
+   List<Map> selectBrandList();
 }

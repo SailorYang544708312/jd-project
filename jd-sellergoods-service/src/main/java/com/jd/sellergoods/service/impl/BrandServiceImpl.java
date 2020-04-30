@@ -11,6 +11,7 @@ import com.jd.sellergoods.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service   //注意这个注解的包别导入错了 此时用的是dubbo的service
 public class BrandServiceImpl implements BrandService {
@@ -72,5 +73,10 @@ public class BrandServiceImpl implements BrandService {
       }
       Page<TbBrand> page = (Page<TbBrand>)tbBrandMapper.selectByExample(example);
       return new PageResult(page.getTotal(),page.getResult());
+   }
+
+   @Override
+   public List<Map> selectBrandList() {
+      return tbBrandMapper.selectBrandList();
    }
 }

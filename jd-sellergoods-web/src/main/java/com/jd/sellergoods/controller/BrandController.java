@@ -9,6 +9,7 @@ import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("brand")
@@ -75,5 +76,10 @@ public class BrandController {
                             @RequestParam(value = "rows",defaultValue = "10")Integer rows,
                             @RequestBody TbBrand tbBrand){
       return brandService.findPage(tbBrand,page,rows);
+   }
+
+   @RequestMapping("selectBrandList")
+   public List<Map> selectBrandList(){
+      return brandService.selectBrandList();
    }
 }
