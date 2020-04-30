@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <!--配置dubbox-->
+    <dubbo:application name="JD-SellerGoods-Service"/>
+
+    <!-- 暴露服务的端口号 -->
+    <dubbo:protocol name="dubbo" port="38080"/>
+
+    <!--指定注册中心的地址-->
+    <dubbo:registry address="zookeeper://192.168.126.131:2181"/>
+
+    <!--使用dubbo的注解服务 暴露借口实现类的扫描-->
+    <dubbo:annotation package="com.jd.sellergoods.service.impl"/>
+
+</beans>

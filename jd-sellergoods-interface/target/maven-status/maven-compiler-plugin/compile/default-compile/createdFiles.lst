@@ -1,0 +1,10 @@
+com\jd\sellergoods\service\BrandService.class
+com\jd\sellergoods\service\ItemCatService.class
+com\jd\sellergoods\service\SpecificationService.class
+com\jd\sellergoods\service\GoodsService.class
+com\jd\sellergoods\service\ContentCategoryService.class
+com\jd\sellergoods\service\SellerService.class
+com\jd\sellergoods\service\TypeTemplateService.class
+com\jd\sellergoods\service\ItemService.class
+com\jd\sellergoods\service\SpecificationOptionService.class
+com\jd\sellergoods\service\GoodsDescService.class

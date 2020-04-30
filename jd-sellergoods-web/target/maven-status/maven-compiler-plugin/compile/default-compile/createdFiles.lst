@@ -1,0 +1,10 @@
+com\jd\sellergoods\controller\ContentCategoryController.class
+com\jd\sellergoods\controller\BrandController.class
+com\jd\sellergoods\controller\SpecificationController.class
+com\jd\sellergoods\controller\SellerController.class
+com\jd\sellergoods\controller\TypeTemplateController.class
+com\jd\sellergoods\controller\GoodsDescController.class
+com\jd\sellergoods\controller\GoodsController.class
+com\jd\sellergoods\controller\SpecificationOptionController.class
+com\jd\sellergoods\controller\ItemController.class
+com\jd\sellergoods\controller\ItemCatController.class
