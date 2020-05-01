@@ -1,4 +1,5 @@
 package com.jd.sellergoods.service.impl;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -45,6 +46,9 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	@Override
 	public void add(TbSeller seller) {
+		//状态(0:未审核 1:审核通过 2:审核未通过 3:关闭) 刚注册的的 商家 默认是0
+		seller.setStatus("0");
+		seller.setCreateTime(new Date());
 		sellerMapper.insert(seller);		
 	}
 
@@ -158,5 +162,15 @@ public class SellerServiceImpl implements SellerService {
 		Page<TbSeller> page= (Page<TbSeller>)sellerMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	@Override
+	public void updateStatus(String sellerId, String status) {
+		//根据主键获取商家对象
+		TbSeller seller = sellerMapper.selectByPrimaryKey(sellerId);
+		//修改状态
+		seller.setStatus(status);
+		//执行修改
+		sellerMapper.updateByPrimaryKey(seller);
+	}
+
 }

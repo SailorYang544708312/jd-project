@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
              http://www.springframework.org/schema/beans/spring-beans.xsd
-			 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+			 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+             http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!--设置以下的页面不拦截-->
-    <http pattern="/login.html" security="none"/>
     <http pattern="/css/**" security="none"/>
     <http pattern="/img/**" security="none"/>
     <http pattern="/js/**" security="none"/>
     <http pattern="/plugins/**" security="none"/>
     <http pattern="/*.html" security="none"/>
+    <!--注册页面已经放行-->
+    <http pattern="/**/add" security="none"/>
 
     <!--拦截规则-->
     <http use-expressions="false">
         <intercept-url pattern="/**" access="ROLE_ADMIN"/>
-        <form-login login-page="/login.html"
+        <form-login login-page="/shoplogin.html"
                     default-target-url="/admin/index.html"
-                    authentication-failure-url="/login.html"
+                    authentication-failure-url="/shoplogin.html"
                     always-use-default-target="true"/>
         <!-- 添加了注销功能 默认的注销url是/logout 默认注销后跳转到登录页面-->
         <logout/>
@@ -32,11 +35,27 @@
 
     <!--认证管理器-->
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
+        <authentication-provider user-service-ref="userDetailsService">
+            <!--<user-service>
                 <user name="admin" password="{noop}123123" authorities="ROLE_ADMIN"/>
                 <user name="sailor" password="{noop}626426" authorities="ROLE_ADMIN"/>
-            </user-service>
+            </user-service>-->
+            <password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <!--配置dubbox-->
+    <dubbo:application name="JD-Shop-web"/>
+
+    <!--指定注册中心的地址-->
+    <dubbo:registry address="zookeeper://192.168.126.131:2181"/>
+
+    <dubbo:reference interface="com.jd.sellergoods.service.SellerService" id="sellerService"/>
+
+    <beans:bean id="userDetailsService" class="com.jd.shop.service.impl.UserDetailsServiceImpl">
+        <beans:property name="sellerService" ref="sellerService"/>
+    </beans:bean>
+
+    <!--配置BCrypt-->
+    <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </beans:beans>

@@ -5,8 +5,10 @@ import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbSeller;
 import com.jd.sellergoods.service.SellerService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -49,6 +51,10 @@ public class SellerController {
 	 */
 	@RequestMapping("/add")
 	public JdResult add(@RequestBody TbSeller seller){
+		//BCrypt加密(可以往service工程中添加springSecurity的核心包，到service工程中去写)
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String password = passwordEncoder.encode(seller.getPassword());
+		seller.setPassword(password);
 		try {
 			sellerService.add(seller);
 			return new JdResult(true, "增加成功",null);
@@ -111,5 +117,5 @@ public class SellerController {
 	public PageResult search(@RequestBody TbSeller seller, int page, int rows  ){
 		return sellerService.findPage(seller, page, rows);		
 	}
-	
+
 }

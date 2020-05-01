@@ -76,5 +76,17 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 			}			
 		);
 	}
-    
+
+	//申请入驻
+	$scope.add= function () {
+		sellerService.add($scope.entity).success(function (response) {
+			if (response.success){
+				//注册成功后 跳转页面
+				location.href = "shoplogin.html"
+			}else{
+				alert(response.message);
+			}
+		})
+	}
+
 });	
