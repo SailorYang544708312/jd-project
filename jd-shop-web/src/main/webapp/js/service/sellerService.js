@@ -29,4 +29,9 @@ app.service('sellerService',function($http){
 	this.search=function(page,rows,searchEntity){
 		return $http.post('../seller/search?page='+page+"&rows="+rows, searchEntity);
 	}
+
+	/*//登录
+	this.userLogin = function (username,password) {
+		return $http.post('../login/name?username='+username+'&password'+password);
+	}*/
 });

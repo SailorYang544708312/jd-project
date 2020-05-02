@@ -42,11 +42,11 @@ public class GoodsController {
 	}
 	
 	/**
-	 * 增加
+	 * 增加  (我是运营商 我是永远不会去做商品的添加服务的！！！ 请不要解开我 不然 呵呵.)
 	 * @param goods
 	 * @return
 	 */
-	@RequestMapping("/add")
+	/*@RequestMapping("/add")
 	public JdResult add(@RequestBody TbGoods goods){
 		try {
 			goodsService.add(goods);
@@ -55,7 +55,7 @@ public class GoodsController {
 			e.printStackTrace();
 			return new JdResult(false, "增加失败",null);
 		}
-	}
+	}*/
 	
 	/**
 	 * 修改

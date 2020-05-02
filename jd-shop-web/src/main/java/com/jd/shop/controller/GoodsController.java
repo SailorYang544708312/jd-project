@@ -4,7 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbGoods;
+import com.jd.pojogroup.Goods;
 import com.jd.sellergoods.service.GoodsService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,8 +50,11 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbGoods goods){
+	public JdResult add(@RequestBody Goods goods){
 		try {
+			//获取到商家的id(登录名)
+			String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+			goods.getGoods().setSellerId(sellerId);
 			goodsService.add(goods);
 			return new JdResult(true, "增加成功",null);
 		} catch (Exception e) {
@@ -102,7 +107,7 @@ public class GoodsController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

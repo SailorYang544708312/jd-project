@@ -58,4 +58,6 @@
 
     <!--配置BCrypt-->
     <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <!--<beans:bean id="myAuthenticationFailureHandler" class="com.jd.shop.security.MyAuthenticationFailureHandler"/>-->
 </beans:beans>

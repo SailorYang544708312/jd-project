@@ -20,6 +20,22 @@
 	<link rel="stylesheet" href="../plugins/kindeditor/themes/default/default.css" />
 	<script charset="utf-8" src="../plugins/kindeditor/kindeditor-min.js"></script>
 	<script charset="utf-8" src="../plugins/kindeditor/lang/zh_CN.js"></script>
+
+	<!--引入angulajs-->
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<!--引入分页主键-->
+	<script type="text/javascript" src="../plugins/angularjs/pagination.js"></script>
+	<!--引入分页样式-->
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+
+	<!--引入自定义模块（带分页）-->
+	<script type="text/javascript" src="../js/base.js"></script>
+	<!--引入自定义服务-->
+	<script type="text/javascript" src="../js/service/goodsService.js"></script>
+	<!--引入baseController-->
+	<script type="text/javascript" src="../js/controller/baseController.js"></script>
+	<!--引入自定义控制器-->
+	<script type="text/javascript" src="../js/controller/goodsController.js"></script>
     
     
       
@@ -27,7 +43,7 @@
     
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" >
+<body ng-app="jd" ng-controller="goodsController" class="hold-transition skin-red sidebar-mini" >
 
             <!-- 正文区域 -->
             <section class="content">
@@ -86,7 +102,7 @@
 									
 		                           <div class="col-md-2 title">商品名称</div>
 		                           <div class="col-md-10 data">
-		                               <input type="text" class="form-control"    placeholder="商品名称" value="">
+		                               <input type="text" class="form-control" ng-model="entity.goods.goodsName" placeholder="商品名称" value="">
 		                           </div>
 		                           
 		                           <div class="col-md-2 title">品牌</div>
@@ -96,14 +112,14 @@
 		
 								   <div class="col-md-2 title">副标题</div>
 		                           <div class="col-md-10 data">
-		                               <input type="text" class="form-control"   placeholder="副标题" value="">
+		                               <input type="text" class="form-control" ng-model="entity.goods.caption" placeholder="副标题" value="">
 		                           </div>
 		                           
 		                           <div class="col-md-2 title">价格</div>
 		                           <div class="col-md-10 data">
 		                           	   <div class="input-group">
 			                          	   <span class="input-group-addon">¥</span>
-			                               <input type="text" class="form-control"  placeholder="价格" value="">
+			                               <input type="text" class="form-control" ng-model="entity.goods.price" placeholder="价格" value="">
 		                           	   </div>
 		                           </div>
 		                           
@@ -115,12 +131,12 @@
 		                           <div class="col-md-2 title rowHeight2x">包装列表</div>
 		                           <div class="col-md-10 data rowHeight2x">
 		                               
-		                           	<textarea rows="4"  class="form-control"   placeholder="包装列表"></textarea>
+		                           	<textarea rows="4"  class="form-control" ng-model="entity.goodsDesc.packageList" placeholder="包装列表"></textarea>
 		                           </div>
 		                           
 		                           <div class="col-md-2 title rowHeight2x">售后服务</div>
 		                           <div class="col-md-10 data rowHeight2x">
-		                               <textarea rows="4"  class="form-control"    placeholder="售后服务"></textarea>
+		                               <textarea rows="4"  class="form-control" ng-model="entity.goodsDesc.saleService" placeholder="售后服务"></textarea>
 		                           </div>                        
                                   
                                     
@@ -342,7 +358,7 @@
                  	
                    </div>
                   <div class="btn-toolbar list-toolbar">
-				      <button class="btn btn-primary" ><i class="fa fa-save"></i>保存</button>
+				      <button class="btn btn-primary" ng-click="add()" ><i class="fa fa-save"></i>保存</button>
 				      <button class="btn btn-default" >返回列表</button>
 				  </div>
 			
@@ -396,7 +412,7 @@
             
             <!-- 正文区域 /-->
 <script type="text/javascript">
-
+	//allowFileManager : true 是否允许浏览 服务器上传的文件。 默认是false (设定为true 可以预览上传的图片或其他文件)
 	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('textarea[name="content"]', {
