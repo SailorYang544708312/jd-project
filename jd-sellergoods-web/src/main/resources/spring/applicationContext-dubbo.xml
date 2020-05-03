@@ -12,7 +12,7 @@
     <dubbo:application name="JD-SellerGoods-web"/>
 
     <!--指定注册中心的地址-->
-    <dubbo:registry address="zookeeper://192.168.126.131:2181"/>
+    <dubbo:registry address="zookeeper://192.168.126.132:2181"/>
 
     <!--使用dubbo的注解服务 扫描地址-->
     <dubbo:annotation package="com.jd.sellergoods.controller"/>

@@ -39,4 +39,10 @@
             </list>
         </property>
     </bean>
+
+    <!--配置附件解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485750"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
 </beans>

@@ -13,5 +13,5 @@
     <dubbo:application name="JD-Shop-web"/>
 
     <!--指定注册中心的地址-->
-    <dubbo:registry address="zookeeper://192.168.126.131:2181"/>
+    <dubbo:registry address="zookeeper://192.168.126.132:2181"/>
 </beans>
