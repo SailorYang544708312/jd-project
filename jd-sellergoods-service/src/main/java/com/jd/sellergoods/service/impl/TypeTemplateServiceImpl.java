@@ -1,5 +1,11 @@
 package com.jd.sellergoods.service.impl;
 import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.jd.mapper.TbSpecificationOptionMapper;
+import com.jd.pojo.TbSpecificationOption;
+import com.jd.pojo.TbSpecificationOptionExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -21,6 +27,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
 	@Autowired
 	private TbTypeTemplateMapper typeTemplateMapper;
+
+	@Autowired
+	private TbSpecificationOptionMapper specificationOptionMapper;
 	
 	/**
 	 * 查询全部
@@ -104,5 +113,25 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		Page<TbTypeTemplate> page= (Page<TbTypeTemplate>)typeTemplateMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	@Override
+	public List<Map> findSpecList(Long id) {
+		//查询模板
+		TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
+		//得到规格字符串
+		String specIds = typeTemplate.getSpecIds();
+		//将这个字符串对象转换成map对象
+		List<Map> list = JSON.parseArray(specIds, Map.class);
+		//遍历map
+		for (Map map : list) {
+			TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+			TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+			criteria.andSpecIdEqualTo(new Long((Integer)map.get("id")));
+			//查询规格选项的集合
+			List<TbSpecificationOption> options = specificationOptionMapper.selectByExample(example);
+			map.put("options",options);
+		}
+		return list;
+	}
+
 }

@@ -1,14 +1,16 @@
-package com.jd.sellergoods.controller;
-import java.util.List;
+package com.jd.shop.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbTypeTemplate;
 import com.jd.sellergoods.service.TypeTemplateService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * controller
@@ -110,5 +112,9 @@ public class TypeTemplateController {
 	public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows  ){
 		return typeTemplateService.findPage(typeTemplate, page, rows);		
 	}
-	
+
+	@RequestMapping("findSpectList")
+	public List<Map> findSpecList(Long id){
+		return typeTemplateService.findSpecList(id);
+	}
 }

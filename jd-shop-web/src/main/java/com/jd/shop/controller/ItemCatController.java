@@ -1,14 +1,16 @@
-package com.jd.sellergoods.controller;
-import java.util.List;
+package com.jd.shop.controller;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
-import com.jd.pojo.TbTypeTemplate;
-import com.jd.sellergoods.service.TypeTemplateService;
+import com.jd.pojo.TbItemCat;
+import com.jd.sellergoods.service.ItemCatService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * controller
@@ -16,19 +18,19 @@ import com.jd.sellergoods.service.TypeTemplateService;
  *
  */
 @RestController
-@RequestMapping("/typeTemplate")
-public class TypeTemplateController {
+@RequestMapping("/itemCat")
+public class ItemCatController {
 
 	@Reference
-	private TypeTemplateService typeTemplateService;
+	private ItemCatService itemCatService;
 	
 	/**
 	 * 返回全部列表
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbTypeTemplate> findAll(){			
-		return typeTemplateService.findAll();
+	public List<TbItemCat> findAll(){			
+		return itemCatService.findAll();
 	}
 	
 	
@@ -38,18 +40,18 @@ public class TypeTemplateController {
 	 */
 	@RequestMapping("/findPage")
 	public PageResult  findPage(int page,int rows){			
-		return typeTemplateService.findPage(page, rows);
+		return itemCatService.findPage(page, rows);
 	}
 	
 	/**
 	 * 增加
-	 * @param typeTemplate
+	 * @param itemCat
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public JdResult add(@RequestBody TbTypeTemplate typeTemplate){
+	public JdResult add(@RequestBody TbItemCat itemCat){
 		try {
-			typeTemplateService.add(typeTemplate);
+			itemCatService.add(itemCat);
 			return new JdResult(true, "增加成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,13 +61,13 @@ public class TypeTemplateController {
 	
 	/**
 	 * 修改
-	 * @param typeTemplate
+	 * @param itemCat
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public JdResult update(@RequestBody TbTypeTemplate typeTemplate){
+	public JdResult update(@RequestBody TbItemCat itemCat){
 		try {
-			typeTemplateService.update(typeTemplate);
+			itemCatService.update(itemCat);
 			return new JdResult(true, "修改成功",null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,8 +81,8 @@ public class TypeTemplateController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbTypeTemplate findOne(Long id){
-		return typeTemplateService.findOne(id);		
+	public TbItemCat findOne(Long id){
+		return itemCatService.findOne(id);		
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class TypeTemplateController {
 	@RequestMapping("/delete")
 	public JdResult delete(Long [] ids){
 		try {
-			typeTemplateService.delete(ids);
+			itemCatService.delete(ids);
 			return new JdResult(true, "删除成功" ,null); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,8 +109,17 @@ public class TypeTemplateController {
 	 * @return
 	 */
 	@RequestMapping("/search")
-	public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows  ){
-		return typeTemplateService.findPage(typeTemplate, page, rows);		
+	public PageResult search(@RequestBody TbItemCat itemCat, int page, int rows  ){
+		return itemCatService.findPage(itemCat, page, rows);		
 	}
-	
+
+	/**
+	 * 根据父id查询下一级列表
+	 * @param parentId
+	 * @return
+	 */
+	@RequestMapping("findByParentId")
+	public List<TbItemCat> findByParentId(@RequestParam("parentId")Long parentId){
+		return itemCatService.findByParentId(parentId);
+	}
 }

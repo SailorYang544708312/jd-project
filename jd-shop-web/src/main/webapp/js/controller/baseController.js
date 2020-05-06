@@ -31,4 +31,14 @@ app.controller('baseController',function ($scope) {
             $scope.selectIds.splice(idx,1);
         }
     }
+
+    //查询集合中key是否存在
+    $scope.searchObjectByKey = function (list,key,value) {
+        for (var i=0;i<list.length;i++){
+            if (list[i][key] == value){
+                return list[i];
+            }
+        }
+        return null;
+    }
 });
