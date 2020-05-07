@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller   ,goodsService){	
+app.controller('goodsController' ,function($scope,$controller,goodsService,itemCatService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -21,14 +21,14 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}			
 		);
 	}
-	
+
 	//查询实体 
-	$scope.findOne=function(id){				
+	$scope.findOne=function(id){
 		goodsService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
 			}
-		);				
+		);
 	}
 	
 	//保存 
@@ -76,5 +76,35 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}			
 		);
 	}
-    
+
+	//商品状态
+	$scope.status = ['未审核','已审核','审核未通过','关闭'];
+
+	//定义商品分类列表(准备从数据库查询，只要查询一次，然后将数据放入内存中，提高性能)
+	$scope.itemCatList = [];
+
+	//加载商品分类列表
+	$scope.findItemCatList = function () {
+		itemCatService.findAll().success(function (response) {
+			for (var i = 0; i < response.length; i++) {
+				//挨个取出itemCat
+				var itemCat = response[i];
+				$scope.itemCatList[itemCat.id] = itemCat.name;
+			}
+		});
+	}
+
+	//更改商品状态
+	$scope.updateStatus = function (status) {
+		goodsService.updateStatus($scope.selectIds,status).success(function (response) {
+			if (response.success){
+				//成功
+				$scope.reloadList();
+				$scope.selectIds = [];
+			}else {
+				//失败
+				alert(response.message);
+			}
+		});
+	}
 });	

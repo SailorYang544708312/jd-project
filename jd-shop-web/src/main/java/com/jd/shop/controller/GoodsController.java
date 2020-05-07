@@ -69,8 +69,16 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public JdResult update(@RequestBody TbGoods goods){
+	public JdResult update(@RequestBody Goods goods){
 		try {
+			//检查当前要修改的商品是否是当前这个商家添加的商品
+			Goods goods2 = goodsService.findOne(goods.getGoods().getId());
+			//当前登录的商家id
+			String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+			if (!goods2.getGoods().getSellerId().equals(sellerId)){
+				//要修改的商品不是自己的添加的商品
+				return new JdResult(false,"非法操作",null);
+			}
 			goodsService.update(goods);
 			return new JdResult(true, "修改成功",null);
 		} catch (Exception e) {
@@ -85,7 +93,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
+	public Goods findOne(Long id){
 		return goodsService.findOne(id);		
 	}
 	
@@ -114,6 +122,9 @@ public class GoodsController {
 	 */
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbGoods goods, int page, int rows  ){
+		//商家后台系统，在商家登录后只能看到商家自己添加的商品，那么我们就在这里添加
+		String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+		goods.setSellerId(sellerId);
 		return goodsService.findPage(goods, page, rows);		
 	}
 	

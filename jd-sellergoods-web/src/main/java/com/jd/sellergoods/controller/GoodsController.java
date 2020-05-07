@@ -1,8 +1,11 @@
 package com.jd.sellergoods.controller;
 import java.util.List;
 
+import com.jd.pojogroup.Goods;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
@@ -63,7 +66,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public JdResult update(@RequestBody TbGoods goods){
+	public JdResult update(@RequestBody Goods goods){
 		try {
 			goodsService.update(goods);
 			return new JdResult(true, "修改成功",null);
@@ -79,7 +82,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
+	public Goods findOne(Long id){
 		return goodsService.findOne(id);		
 	}
 	
@@ -101,14 +104,25 @@ public class GoodsController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return
 	 */
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbGoods goods, int page, int rows  ){
-		return goodsService.findPage(goods, page, rows);		
+		return goodsService.findPage(goods, page, rows);
 	}
-	
+
+	@RequestMapping("updateStatus")
+	public JdResult updateStatus(@RequestParam("ids")Long[] ids,
+								 @RequestParam("status") String status){
+		try {
+			goodsService.updateStatus(ids,status);
+			return JdResult.ok();
+		}catch (Exception e){
+			e.printStackTrace();
+			return new JdResult(false,"修改商品状态失败",null);
+		}
+	}
 }

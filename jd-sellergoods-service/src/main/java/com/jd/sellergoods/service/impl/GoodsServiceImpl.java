@@ -68,6 +68,11 @@ public class GoodsServiceImpl implements GoodsService {
 		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
 		goodsDescMapper.insert(goods.getGoodsDesc());
 
+		//添加商品信息到sku
+		saveItemList(goods);
+	}
+
+	private void saveItemList(Goods goods){
 		//判断是否启动了规格
 		if ("1".equals(goods.getGoods().getIsEnableSpec())){
 			//启用规格
@@ -83,7 +88,6 @@ public class GoodsServiceImpl implements GoodsService {
 				setItemValues(goods,item);
 				//添加到Tbitem表中
 				itemMapper.insertSelective(item);
-
 			}
 		}else {
 			//不启用规格
@@ -98,7 +102,6 @@ public class GoodsServiceImpl implements GoodsService {
 			itemMapper.insert(item);
 		}
 	}
-
 	//抽取一个方法
 	private void setItemValues(Goods goods, TbItem item) {
 		item.setGoodsId(goods.getGoods().getId());//商品SPU编号
@@ -133,8 +136,21 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbGoods goods){
-		goodsMapper.updateByPrimaryKey(goods);
+	public void update(Goods goods){
+		//goodsMapper.updateByPrimaryKey(goods);
+		//修改后的商品需要从新通过运营商审核
+		goods.getGoods().setAuditStatus("0");
+		goodsMapper.updateByPrimaryKey(goods.getGoods());//修改商品表
+
+		goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());//修改商品详情表
+
+		//修改sku思路，先把之前的sku全部删除(条件商品的id)，然后加上新的sku表
+		TbItemExample example = new TbItemExample();
+		TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andGoodsIdEqualTo(goods.getGoods().getId());
+		itemMapper.deleteByExample(example);
+		//添加新的sku列表到数据库
+		saveItemList(goods);
 	}	
 	
 	/**
@@ -143,8 +159,21 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @return
 	 */
 	@Override
-	public TbGoods findOne(Long id){
-		return goodsMapper.selectByPrimaryKey(id);
+	public Goods findOne(Long id){
+		Goods goods = new Goods();
+		//1.查询TbGoods
+		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+		goods.setGoods(tbGoods);
+		//2.查询TbGoodsDesc
+		TbGoodsDesc goodsDesc = goodsDescMapper.selectByPrimaryKey(id);
+		goods.setGoodsDesc(goodsDesc);
+		//3.查询sku列表
+		TbItemExample example = new TbItemExample();
+		TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andGoodsIdEqualTo(id);//添加商品id作为条件
+		List<TbItem> itemList = itemMapper.selectByExample(example);
+		goods.setItemList(itemList);
+		return goods;
 	}
 
 	/**
@@ -153,7 +182,12 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public void delete(Long[] ids) {
 		for(Long id:ids){
-			goodsMapper.deleteByPrimaryKey(id);
+			//goodsMapper.deleteByPrimaryKey(id);
+			//实现逻辑删除
+			TbGoods goods = new TbGoods();
+			goods.setId(id);
+			goods.setIsDelete("1");
+			goodsMapper.updateByPrimaryKeySelective(goods);
 		}		
 	}
 	
@@ -164,10 +198,12 @@ public class GoodsServiceImpl implements GoodsService {
 		
 		TbGoodsExample example=new TbGoodsExample();
 		Criteria criteria = example.createCriteria();
-		
+		criteria.andIsDeleteIsNull();//为null就是 正常商品 为1表示是逻辑删除，我们查询的商品一定是没有删除的
 		if(goods!=null){			
-						if(goods.getSellerId()!=null && goods.getSellerId().length()>0){
-				criteria.andSellerIdLike("%"+goods.getSellerId()+"%");
+			if(goods.getSellerId()!=null && goods.getSellerId().length()>0){
+				//为了防止查询到其他商家的商品，所以这里采取精确查询
+				//criteria.andSellerIdLike("%"+goods.getSellerId()+"%");
+				criteria.andSellerIdEqualTo(goods.getSellerId());
 			}
 			if(goods.getGoodsName()!=null && goods.getGoodsName().length()>0){
 				criteria.andGoodsNameLike("%"+goods.getGoodsName()+"%");
@@ -196,5 +232,15 @@ public class GoodsServiceImpl implements GoodsService {
 		Page<TbGoods> page= (Page<TbGoods>)goodsMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	@Override
+	public void updateStatus(Long[] ids, String status) {
+		for (Long id : ids) {
+			TbGoods goods = new TbGoods();
+			goods.setId(id);
+			goods.setAuditStatus(status);
+			goodsMapper.updateByPrimaryKeySelective(goods);
+		}
+	}
+
 }
