@@ -87,6 +87,12 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 		$scope.entity.goodsDesc.customAttributeItems = JSON.stringify($scope.entity.goodsDesc.customAttributeItems);
 		//将规格选项转换成json字符串
 		$scope.entity.goodsDesc.specificationItems = JSON.stringify($scope.entity.goodsDesc.specificationItems);
+		//遍历itemList将spec转成字符串
+		if ($scope.entity.itemList != null){
+			for (var i = 0;i < $scope.entity.itemList.length;i++){
+				$scope.entity.itemList[i].spec = JSON.stringify($scope.entity.itemList[i].spec);
+			}
+		}
 
 		goodsService.add($scope.entity).success(function (response) {
 			if (response.success){
