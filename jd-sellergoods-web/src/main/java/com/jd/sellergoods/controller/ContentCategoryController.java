@@ -8,7 +8,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbContentCategory;
-import com.jd.sellergoods.service.ContentCategoryService;
+import com.jd.content.service.ContentCategoryService;
 
 /**
  * controller
@@ -101,7 +101,7 @@ public class ContentCategoryController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

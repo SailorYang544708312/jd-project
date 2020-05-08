@@ -15,6 +15,9 @@
         <module>jd-sellergoods-web</module>
         <module>jd-common</module>
         <module>jd-shop-web</module>
+        <module>jd-content-interface</module>
+        <module>jd-content-service</module>
+        <module>jd-protal-web</module>
     </modules>
     <packaging>pom</packaging>
 
