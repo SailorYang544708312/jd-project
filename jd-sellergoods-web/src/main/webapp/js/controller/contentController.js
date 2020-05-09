@@ -99,4 +99,7 @@ app.controller('contentController' ,function($scope,$controller,contentService,u
 			$scope.findContentCatList = response;
 		});
 	}
+
+	//定义分类
+	$scope.category =['','首页轮播广告','今日推荐','活动专区','猜你喜欢','服装楼层广告','京东快报','京东每日新闻'];
 });	

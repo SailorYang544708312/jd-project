@@ -21,7 +21,7 @@
 	<script type="text/javascript" src="js/controller/contentController.js"></script>
 </head>
 
-<body ng-app="jd" ng-controller="contentController" ng-init="findByCategoryId(1)">
+<body ng-app="jd" ng-controller="contentController" ng-init="findByCategoryId(1);findByCategoryId(6)">
 <!-- 头部栏位 -->
 <!-- 页面顶部 -->
 <div id="nav-bottom">
@@ -544,20 +544,8 @@
 						<h4><em class="fl">京东快报</em><span class="fr tip">更多 ></span></h4>
 						<div class="clearix"></div>
 						<ul class="news-list unstyled">
-							<li>
-								<span class="bold">[特惠]</span>备战开学季 全民半价购数码
-							</li>
-							<li>
-								<span class="bold">[公告]</span>备战开学季 全民半价购数码
-							</li>
-							<li>
-								<span class="bold">[特惠]</span>备战开学季 全民半价购数码
-							</li>
-							<li>
-								<span class="bold">[公告]</span>备战开学季 全民半价购数码
-							</li>
-							<li>
-								<span class="bold">[特惠]</span>备战开学季 全民半价购数码
+							<li ng-repeat="item in contentList[6]">
+								<span class="bold">[消息]</span>{{item.title}}
 							</li>
 						</ul>
 					</div>

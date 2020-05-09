@@ -7,4 +7,5 @@ app.controller('contentController',function ($scope,contentService) {
             $scope.contentList[categoryId] = response;
         })
     }
+
 })
