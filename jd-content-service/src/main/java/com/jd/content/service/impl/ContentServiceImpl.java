@@ -10,6 +10,7 @@ import com.jd.pojo.TbContentExample;
 import com.jd.pojo.TbContentExample.Criteria;
 import com.jd.content.service.ContentService;
 import com.jd.common.pojo.PageResult;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 服务实现层
@@ -21,6 +22,8 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private TbContentMapper contentMapper;
+	@Autowired
+	private RedisTemplate<String,Object> redisTemplate;
 	
 	/**
 	 * 查询全部
@@ -107,13 +110,24 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public List<TbContent> findByCategoryId(Long categoryId) {
+		//首先从redis中取出数据
+		List<TbContent> list = (List<TbContent>)redisTemplate.boundHashOps("ads").get(categoryId);
+		//1.取到了直接返回，就不去数据库了
+		if (list != null && list.size() > 0){
+			System.out.println("直接走redis，不去数据库:"+list);
+			return list;
+		}
+		//2.没取到，去数据库查
 		TbContentExample example = new TbContentExample();
 		example.setOrderByClause("sort_order desc");//通过降序排列
 		Criteria criteria = example.createCriteria();
 		criteria.andCategoryIdEqualTo(categoryId);
 		//只查询status状态是1 启用的广告
 		criteria.andStatusEqualTo("1");
-		List<TbContent> list = contentMapper.selectByExample(example);
+		list = contentMapper.selectByExample(example);
+		//查到后 存入redis 方便下次就不去数据库查了 提升性能
+		redisTemplate.boundHashOps("ads").put(categoryId,list);
+		System.out.println("走数据库,并且存入到redis中:"+list);
 		return list;
 	}
 
