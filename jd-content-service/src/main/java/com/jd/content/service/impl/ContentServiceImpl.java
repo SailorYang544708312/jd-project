@@ -48,7 +48,10 @@ public class ContentServiceImpl implements ContentService {
 	 */
 	@Override
 	public void add(TbContent content) {
-		contentMapper.insert(content);		
+		contentMapper.insert(content);
+		//新增完广告后，得将redis中的广告删除,不删除就会直接从redis中拿 前端就读不到更新后的数据
+		//我们采用的存储模式是hash 结构是  ads = {1:[],2:[],3:[]}    1就是我们设定的首页轮播广告  这样就会只删除首页轮播的广告的redis缓存
+		redisTemplate.boundHashOps("ads").delete(content.getCategoryId());
 	}
 
 	
@@ -57,7 +60,14 @@ public class ContentServiceImpl implements ContentService {
 	 */
 	@Override
 	public void update(TbContent content){
+		//查询修改前的分类ID(因为 修改时 有可能会修改分类ID)
+		TbContent tbContent = contentMapper.selectByPrimaryKey(content.getId());
+		Long categoryId = tbContent.getCategoryId(); //得到修改前的分类ID
+		redisTemplate.boundHashOps("ads").delete(categoryId);
 		contentMapper.updateByPrimaryKey(content);
+		if (categoryId.longValue() != content.getCategoryId()){
+			redisTemplate.boundHashOps("ads").delete(content.getCategoryId());
+		}
 	}	
 	
 	/**
@@ -76,6 +86,8 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public void delete(Long[] ids) {
 		for(Long id:ids){
+			Long categoryId = contentMapper.selectByPrimaryKey(id).getCategoryId();
+			redisTemplate.boundHashOps("ads").delete(categoryId);
 			contentMapper.deleteByPrimaryKey(id);
 		}		
 	}

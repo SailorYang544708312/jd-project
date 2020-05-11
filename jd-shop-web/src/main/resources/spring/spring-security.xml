@@ -26,7 +26,6 @@
                     always-use-default-target="true"/>
         <!-- 添加了注销功能 默认的注销url是/logout 默认注销后跳转到登录页面-->
         <logout/>
-
         <csrf disabled="true"/>
         <headers>
             <frame-options policy="SAMEORIGIN"/> <!--允许使用iframe框架-->

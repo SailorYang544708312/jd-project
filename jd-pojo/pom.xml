@@ -14,4 +14,16 @@
     <groupId>com.jd</groupId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solrj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+            <version>${spring-data-solr.version}</version>
+        </dependency>
+    </dependencies>
 </project>

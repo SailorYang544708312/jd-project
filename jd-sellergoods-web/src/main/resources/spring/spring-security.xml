@@ -23,20 +23,17 @@
                     always-use-default-target="true"/>
         <!-- 添加了注销功能 默认的注销url是/logout 默认注销后跳转到登录页面-->
         <logout/>
-
         <csrf disabled="true"/>
         <headers>
             <frame-options policy="SAMEORIGIN"/> <!--允许使用iframe框架-->
         </headers>
-
     </http>
 
     <!--认证管理器-->
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="admin" password="{noop}123123" authorities="ROLE_ADMIN"/>
-                <user name="sailor" password="{noop}626426" authorities="ROLE_ADMIN"/>
+                <user name="sailor" password="123123" authorities="ROLE_ADMIN"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>
