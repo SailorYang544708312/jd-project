@@ -369,9 +369,7 @@
 											<i>{{item.price}}</i>
 										</strong>
 								</div>
-								<div class="attr">
-									<em>{{item.title}}</em>
-								</div>
+								<div class="attr" ng-bind-html="item.title | xinren"></div>
 								<div class="cu">
 									<em></em>
 								</div>
