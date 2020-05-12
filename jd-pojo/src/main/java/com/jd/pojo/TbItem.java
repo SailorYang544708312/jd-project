@@ -1,10 +1,12 @@
 package com.jd.pojo;
 
 import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.solr.core.mapping.Dynamic;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 public class TbItem implements Serializable {
     @Field
@@ -53,6 +55,18 @@ public class TbItem implements Serializable {
     private String spec;
     @Field("item_seller")
     private String seller;
+
+    @Dynamic
+    @Field("item_spec_*")
+    private Map<String,String> specMap;
+
+    public Map<String, String> getSpecMap() {
+        return specMap;
+    }
+
+    public void setSpecMap(Map<String, String> specMap) {
+        this.specMap = specMap;
+    }
 
     public TbItem(Long id, String title, String sellPoint, BigDecimal price, Integer stockCount, Integer num, String barcode, String image, Long categoryid, String status, Date createTime, Date updateTime, String itemSn, BigDecimal costPirce, BigDecimal marketPrice, String isDefault, Long goodsId, String sellerId, String cartThumbnail, String category, String brand, String spec, String seller) {
         this.id = id;

@@ -1,6 +1,9 @@
 package com.jd.sellergoods.controller;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +12,8 @@ import com.jd.common.pojo.JdResult;
 import com.jd.common.pojo.PageResult;
 import com.jd.pojo.TbTypeTemplate;
 import com.jd.sellergoods.service.TypeTemplateService;
+
+import javax.annotation.Resource;
 
 /**
  * controller
@@ -21,6 +26,7 @@ public class TypeTemplateController {
 
 	@Reference
 	private TypeTemplateService typeTemplateService;
+
 	
 	/**
 	 * 返回全部列表
@@ -110,5 +116,10 @@ public class TypeTemplateController {
 	public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows  ){
 		return typeTemplateService.findPage(typeTemplate, page, rows);		
 	}
-	
+
+	//用于select2
+	@RequestMapping("/selectTypeTemplateList")
+	public List<Map> selectTypeTemplateList(){
+		return typeTemplateService.selectTypeTemplateList();
+	}
 }

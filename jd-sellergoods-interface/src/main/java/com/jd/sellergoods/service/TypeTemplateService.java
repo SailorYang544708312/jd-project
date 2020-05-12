@@ -61,6 +61,12 @@ public interface TypeTemplateService {
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum,int pageSize);
 
 	/**
+	 * 用于select2数据
+	 * @return
+	 */
+	List<Map> selectTypeTemplateList();
+
+	/**
 	 * 返回规格列表
 	 * @param id
 	 * @return

@@ -1,6 +1,7 @@
 package com.jd.solr.utils;
 
 
+import com.alibaba.fastjson.JSON;
 import com.jd.mapper.TbItemMapper;
 import com.jd.pojo.TbItem;
 import com.jd.pojo.TbItemExample;
@@ -10,6 +11,7 @@ import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class SolrUtil {
@@ -31,6 +33,10 @@ public class SolrUtil {
    //添加到solr
    public void save(){
       List<TbItem> list = selectFromMysql();
+      for (TbItem item : list) {
+         Map specMap = JSON.parseObject(item.getSpec(), Map.class);
+         item.setSpecMap(specMap);//给带注解的字段赋值
+      }
       solrTemplate.saveBeans(list);
       solrTemplate.commit();
    }

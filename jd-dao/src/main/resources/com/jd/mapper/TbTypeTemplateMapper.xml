@@ -210,4 +210,8 @@
       custom_attribute_items = #{customAttributeItems,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectTypeTemplateList" resultType="java.util.Map">
+  	SELECT id,NAME AS text FROM `tb_type_template`
+  </select>
 </mapper>
