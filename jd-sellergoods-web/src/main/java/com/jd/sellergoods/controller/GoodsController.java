@@ -1,7 +1,10 @@
 package com.jd.sellergoods.controller;
+import java.util.Arrays;
 import java.util.List;
 
+import com.jd.pojo.TbItem;
 import com.jd.pojogroup.Goods;
+import com.jd.search.service.ItemSearchService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,9 @@ public class GoodsController {
 
 	@Reference
 	private GoodsService goodsService;
+
+	@Reference
+	private ItemSearchService itemSearchService;
 	
 	/**
 	 * 返回全部列表
@@ -95,6 +101,8 @@ public class GoodsController {
 	public JdResult delete(Long [] ids){
 		try {
 			goodsService.delete(ids);
+			//从solr中也删除
+			itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
 			return new JdResult(true, "删除成功" ,null); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,6 +127,17 @@ public class GoodsController {
 								 @RequestParam("status") String status){
 		try {
 			goodsService.updateStatus(ids,status);
+
+			//当运营商点击审核通过，就将商品添加到solr中
+			if (status.equals("1")){
+				//审核通过(审核通过的sku列表)
+				List<TbItem> list = goodsService.findItemListByGoodsIdAndStatus(ids, status);
+				//调用搜索服务中的添加到solr方法
+				if (list != null && list.size() > 0){
+					itemSearchService.importList(list);
+				}
+				System.out.println("将商品导入到solr成功");
+			}
 			return JdResult.ok();
 		}catch (Exception e){
 			e.printStackTrace();

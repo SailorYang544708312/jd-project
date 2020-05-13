@@ -1,4 +1,6 @@
 package com.jd.sellergoods.service.impl;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -241,6 +243,17 @@ public class GoodsServiceImpl implements GoodsService {
 			goods.setAuditStatus(status);
 			goodsMapper.updateByPrimaryKeySelective(goods);
 		}
+	}
+
+	@Override
+	public List<TbItem> findItemListByGoodsIdAndStatus(Long[] goodsIds, String status) {
+		TbItemExample example = new TbItemExample();
+		TbItemExample.Criteria criteria = example.createCriteria();
+		//将数组转换成集合
+		List<Long> ids = Arrays.asList(goodsIds);
+		criteria.andGoodsIdIn(ids);//查询添加中添加商品id
+		criteria.andStatusEqualTo(status);//添加状态作为查询条件
+		return itemMapper.selectByExample(example);
 	}
 
 }

@@ -3,6 +3,7 @@ import java.util.List;
 import com.jd.pojo.TbGoods;
 
 import com.jd.common.pojo.PageResult;
+import com.jd.pojo.TbItem;
 import com.jd.pojogroup.Goods;
 
 /**
@@ -66,4 +67,12 @@ public interface GoodsService {
 	 * @param status
 	 */
 	void updateStatus(Long[] ids,String status);
+
+	/**
+	 * 运营商可以批量审核通过（根据商品的id和状态来查询item表信息）
+	 * @param goodsIds
+	 * @param status
+	 * @return
+	 */
+	List<TbItem> findItemListByGoodsIdAndStatus(Long[] goodsIds,String status);
 }

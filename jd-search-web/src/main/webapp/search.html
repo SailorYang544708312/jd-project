@@ -21,7 +21,7 @@
 
 	</head>
 
-	<body ng-app="jd" ng-controller="searchController">
+	<body ng-app="jd" ng-controller="searchController" ng-init="loadkeywords()">
 		<!-- 头部栏位 -->
 		<!--页面顶部-->
 		<div id="nav-bottom">
@@ -84,7 +84,7 @@
 									<form action="" class="sui-form form-inline">
 										<!--searchAutoComplete-->
 										<div class="input-append">
-											<input type="text" id="autocomplete" type="text" ng-model="searchMap.keywords" class="input-error input-xxlarge" />
+											<input type="text" id="autocomplete" ng-keyup="enterEvent($event)" type="text" ng-model="searchMap.keywords" class="input-error input-xxlarge" />
 											<button class="sui-btn btn-xlarge btn-danger" type="button" ng-click="search()">搜索</button>
 										</div>
 									</form>
@@ -149,7 +149,7 @@
 	<div class="main">
 		<div class="py-container">
 			<!--bread-->
-			{{searchMap}}
+			<!--{{searchMap}}-->
 			<div class="bread">
 				<ul class="fl sui-breadcrumb">
 					<li>
@@ -157,9 +157,11 @@
 					</li>
 				</ul>
 				<ul class="tags-choose">
-					<li class="tag" ng-if="searchMap.category != ''" ng-click="removeSearchItem('category')">商品分类{{searchMap.category}}<i class="sui-icon icon-tb-close"></i></li>
-					<li class="tag" ng-if="searchMap.brand != ''" ng-click="removeSearchItem('brand')">品牌{{searchMap.brand}}<i class="sui-icon icon-tb-close"></i></li>
+					<li class="tag" ng-if="searchMap.category != ''" ng-click="removeSearchItem('category')">商品分类:{{searchMap.category}}<i class="sui-icon icon-tb-close"></i></li>
+					<li class="tag" ng-if="searchMap.brand != ''" ng-click="removeSearchItem('brand')">品牌:{{searchMap.brand}}<i class="sui-icon icon-tb-close"></i></li>
 					<li class="tag" ng-repeat="(key,value) in searchMap.spec" ng-click="removeSearchItem(key)">{{key}}:{{value}}<i class="sui-icon icon-tb-close"></i></li>
+					<li class="tag" ng-if="searchMap.price != ''" ng-click="removeSearchItem('price')">价格:{{searchMap.price}}<i class="sui-icon icon-tb-close"></i></li>
+
 				</ul>
 				<div class="clearfix"></div>
 			</div>
@@ -175,7 +177,7 @@
 					</div>
 					<div class="fl ext"></div>
 				</div>
-				<div class="type-wrap logo" ng-if="resultMap.brandList != null && searchMap.brand == ''">
+				<div class="type-wrap logo" ng-if="resultMap.brandList != null && searchMap.brand == '' && keywordsIsBrand() == false">
 					<div class="fl key brand">品牌</div>
 					<div class="value logos">
 						<ul class="logo-list">
@@ -204,30 +206,31 @@
 
 					<div class="fl ext"></div>
 				</div>
-				<div class="type-wrap">
+				<div class="type-wrap" ng-if="searchMap.price == ''">
 					<div class="fl key">价格</div>
 					<div class="fl value">
 						<ul class="type-list">
 							<li>
-								<a>0-500元</a>
+								<a ng-click="addSearchItem('price','0-500')">0-500元</a>
 							</li>
 							<li>
-								<a>500-1000元</a>
+								<a ng-click="addSearchItem('price','500-1000')">500-1000元</a>
 							</li>
 							<li>
-								<a>1000-1500元</a>
+								<a ng-click="addSearchItem('price','1000-1500')">1000-1500元</a>
 							</li>
 							<li>
-								<a>1500-2000元</a>
+								<a ng-click="addSearchItem('price','1500-2000')">1500-2000元</a>
 							</li>
 							<li>
-								<a>2000-3000元 </a>
+								<a ng-click="addSearchItem('price','2000-3000')">2000-3000元 </a>
 							</li>
 							<li>
-								<a>3000元以上</a>
+								<a ng-click="addSearchItem('price','3000-*')">3000元以上</a>
 							</li>
 						</ul>
 					</div>
+
 					<div class="fl ext">
 					</div>
 				</div>
@@ -262,19 +265,27 @@
 					<div class="navbar-inner filter">
 						<ul class="sui-nav">
 							<li class="active">
-								<a href="#">综合</a>
+								<a ng-click="sortSearch('','')">综合</a>
 							</li>
 							<li>
 								<a href="#">销量</a>
 							</li>
 							<li>
-								<a href="#">新品</a>
+								<a ng-click="sortSearch('updatetime','DESC')">新品</a>
 							</li>
 							<li>
 								<a href="#">评价</a>
 							</li>
 							<li>
-								<a href="#">价格</a>
+								<a ng-click="sortSearch('price','ASC')">价格↑</a>
+							</li>
+							<li>
+								<a ng-click="sortSearch('price','DESC')">价格↓</a>
+							</li>
+							<li>
+								<a href="javaScript:void(0)">
+									当前第{{searchMap.pageNow}}页&nbsp;/&nbsp;共{{resultMap.total}}结果
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -311,34 +322,23 @@
 				<div class="fr page">
 					<div class="sui-pagination pagination-large">
 						<ul>
-							<li class="prev disabled">
-								<a href="#">«上一页</a>
+							<li class="prev {{isTopPage()?'disabled':''}}">
+								<a ng-click="queryByPage(searchMap.pageNow - 1)">«上一页</a>
 							</li>
-							<li class="active">
-								<a href="#">1</a>
+							<li class="dotted" ng-if="firstDot == true"><span>...</span></li>
+							<!-- class="active" -->
+							<li ng-repeat="p in pageLabel" class="{{p == searchMap.pageNow?'active':''}}">
+								<a ng-click="queryByPage(p)">{{p}}</a>
 							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li class="dotted"><span>...</span></li>
-							<li class="next">
-								<a href="#">下一页»</a>
+							<li class="dotted" ng-if="lastDot == true"><span>...</span></li>
+							<li class="next {{isEndPage()?'disabled':''}}">
+								<a ng-click="queryByPage(searchMap.pageNow + 1)">下一页»</a>
 							</li>
 						</ul>
-						<div><span>共10页&nbsp;</span><span>
-      到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
-					</div>
+						<div><span>共{{resultMap.totalPages}}页</span><span>
+      					到第<input type="text" class="page-num" ng-model="searchMap.pageNow">页
+							<button class="page-confirm" ng-click="queryByPage(searchMap.pageNow)">确定</button></span></div>
+						</div>
 				</div>
 			</div>
 			<!--hotsale-->
@@ -699,27 +699,51 @@
 		</div>
 	</script>
 	<!--侧栏面板结束-->
-		<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$("#service").hover(function() {
-					$(".service").show();
-				}, function() {
-					$(".service").hide();
-				});
-				$("#shopcar").hover(function() {
-					$("#shopcarlist").show();
-				}, function() {
-					$("#shopcarlist").hide();
-				});
+	<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#service").hover(function() {
+				$(".service").show();
+			}, function() {
+				$(".service").hide();
+			});
+			$("#shopcar").hover(function() {
+				$("#shopcarlist").show();
+			}, function() {
+				$("#shopcarlist").hide();
+			});
 
-			})
-		</script>
-		<script type="text/javascript" src="js/model/cartModel.js"></script>
-		<script type="text/javascript" src="js/czFunction.js"></script>
-		<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-		<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-		<script type="text/javascript" src="js/widget/cartPanelView.js"></script>
+		})
+	</script>
+	<script type="text/javascript" src="js/model/cartModel.js"></script>
+	<script type="text/javascript" src="js/czFunction.js"></script>
+	<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+	<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+	<script type="text/javascript" src="js/widget/cartPanelView.js"></script>
+	<script type="text/javascript">
+		/*$(function () {
+			var b =['小米','华为','三星','手机','电视'];
+
+			//生成一个随机数
+			var max = b.length-1;
+			var min = 0;
+			var index = Math.floor(Math.random()*(max-min+1)+min);
+			//alert(b[index]);
+			var goodsName = b[index];
+			//将随机数写入到
+			$("#autocomplete").val(goodsName).css("color","#ccc");
+
+			//选中框。默认推荐文字消失
+			$("#autocomplete").focus(function () {
+				$(this).val('');
+			});
+			//失去焦点后文字要又还原
+			$("#autocomplete").blur(function () {
+				$(this).val(goodsName)
+			});
+		});*/
+
+	</script>
 	</body>
 
 </html>
