@@ -22,6 +22,8 @@
         <module>jd-search-interface</module>
         <module>jd-search-service</module>
         <module>jd-search-web</module>
+        <module>jd-item-interface</module>
+        <module>jd-item-service</module>
     </modules>
     <packaging>pom</packaging>
 

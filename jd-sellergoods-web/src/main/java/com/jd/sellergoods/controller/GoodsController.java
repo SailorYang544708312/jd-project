@@ -2,6 +2,7 @@ package com.jd.sellergoods.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import com.jd.item.service.ItemPageService;
 import com.jd.pojo.TbItem;
 import com.jd.pojogroup.Goods;
 import com.jd.search.service.ItemSearchService;
@@ -30,6 +31,9 @@ public class GoodsController {
 
 	@Reference
 	private ItemSearchService itemSearchService;
+
+	@Reference
+	private ItemPageService itemPageService;
 	
 	/**
 	 * 返回全部列表
@@ -137,11 +141,23 @@ public class GoodsController {
 					itemSearchService.importList(list);
 				}
 				System.out.println("将商品导入到solr成功");
+
+				//商品审核通过，那么将要生成该商品的详情静态页面
+				for (Long id : ids) {
+					itemPageService.genItemHtml(id);
+				}
 			}
 			return JdResult.ok();
 		}catch (Exception e){
 			e.printStackTrace();
 			return new JdResult(false,"修改商品状态失败",null);
 		}
+	}
+
+	//为了方便测试，先不放在审核出
+	@RequestMapping("genhtml")
+	public JdResult genHtml(Long goodsId){
+		JdResult result = itemPageService.genItemHtml(goodsId);
+		return result;
 	}
 }
