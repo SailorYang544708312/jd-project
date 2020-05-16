@@ -15,16 +15,6 @@
 
     <dependencies>
         <dependency>
-            <artifactId>jd-search-interface</artifactId>
-            <groupId>com.jd</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <artifactId>jd-item-interface</artifactId>
-            <groupId>com.jd</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <artifactId>jd-content-interface</artifactId>
             <groupId>com.jd</groupId>
             <version>1.0-SNAPSHOT</version>
@@ -114,6 +104,16 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <!-- 消息中间件(系统之间的异步通信) -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+        </dependency>
+        <!--阿里巴巴fastjson工具-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
 

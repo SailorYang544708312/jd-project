@@ -12,4 +12,11 @@ public interface ItemPageService {
     * @return
     */
    JdResult genItemHtml(Long goodsId);
+
+   /**
+    * 删除静态页面
+    * @param goodsIds
+    * @return
+    */
+   JdResult deleteItemHtml(Long[] goodsIds);
 }

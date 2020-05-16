@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--JMS服务厂商提供的连接工厂-->
+    <bean id="factory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://192.168.126.135:61616"/>
+    </bean>
+
+    <!--spring用于管理真正的ConnectionFactory-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="factory"/>
+    </bean>
+
+    <!--spring提供的工具类-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <!-- topic:生成静态页面 -->
+    <bean id="topicItemDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg name="name" value="jd_topic_item"/>
+    </bean>
+
+    <!--监听类-->
+    <bean id="itemListener" class="com.jd.item.listener.ItemListener"/>
+
+    <!--消息的监听-->
+    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="topicItemDestination"/>
+        <property name="messageListener" ref="itemListener"/>
+    </bean>
+
+    <!-- topic:删除静态页面 -->
+    <bean id="topicItemDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg name="name" value="jd_topic_item_delete"/>
+    </bean>
+    <!--监听类-->
+    <bean id="itemDeleteListener" class="com.jd.item.listener.ItemDeleteListener"/>
+    <!--消息的监听-->
+    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="topicItemDeleteDestination"/>
+        <property name="messageListener" ref="itemDeleteListener"/>
+    </bean>
+
+</beans>

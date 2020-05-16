@@ -68,8 +68,8 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
     </dependency>
-    <!-- dubbox相关 -->
-    <dependency>
+    <!-- dubbox:生成静态页面的工程，不会跟其它功能耦合，那么系统之间的通信不再使用dubbox通信,将使用activemq实现异步通信 -->
+    <!--<dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>dubbo</artifactId>
     </dependency>
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>com.github.sgroschupf</groupId>
       <artifactId>zkclient</artifactId>
-    </dependency>
+    </dependency>-->
     <!--javassist-->
     <dependency>
       <groupId>javassist</groupId>
@@ -100,6 +100,12 @@
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>${freemarker.version}</version>
+    </dependency>
+    <!-- 消息中间件(系统之间的异步通信) -->
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-all</artifactId>
+      <version>${activemq.version}</version>
     </dependency>
   </dependencies>
 

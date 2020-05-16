@@ -1,6 +1,5 @@
 package com.jd.item.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.jd.common.pojo.JdResult;
 import com.jd.item.service.ItemPageService;
 import com.jd.mapper.TbGoodsDescMapper;
@@ -12,8 +11,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -80,6 +79,19 @@ public class ItemPageServiceImpl implements ItemPageService {
       }catch (Exception e){
          e.printStackTrace();
          return new JdResult(false,"生成静态页面失败",null);
+      }
+   }
+
+   @Override
+   public JdResult deleteItemHtml(Long[] goodsIds) {
+      try {
+         for (Long goodsId : goodsIds) {
+            new File(ITEM_PAGE_DIR+goodsId+ITEM_PAGE_SUFFIX).delete();
+         }
+         return JdResult.ok();
+      }catch (Exception e){
+         e.printStackTrace();
+         return new JdResult(false,"删除静态页面失败",null);
       }
    }
 }
