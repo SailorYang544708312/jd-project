@@ -9,18 +9,14 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-
-  <artifactId>jd-item-service</artifactId>
+  <groupId>com.jd</groupId>
+  <artifactId>jd-user-service</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <dependencies>
     <dependency>
-      <artifactId>jd-search-interface</artifactId>
-      <groupId>com.jd</groupId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <artifactId>jd-item-interface</artifactId>
+      <artifactId>jd-user-interface</artifactId>
       <groupId>com.jd</groupId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
@@ -69,7 +65,7 @@
       <artifactId>spring-context-support</artifactId>
     </dependency>
     <!-- dubbox:生成静态页面的工程，不会跟其它功能耦合，那么系统之间的通信不再使用dubbox通信,将使用activemq实现异步通信 -->
-    <!--<dependency>
+    <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>dubbo</artifactId>
     </dependency>
@@ -80,7 +76,7 @@
     <dependency>
       <groupId>com.github.sgroschupf</groupId>
       <artifactId>zkclient</artifactId>
-    </dependency>-->
+    </dependency>
     <!--javassist-->
     <dependency>
       <groupId>javassist</groupId>

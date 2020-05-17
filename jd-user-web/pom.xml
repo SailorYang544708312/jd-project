@@ -9,30 +9,16 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-
-  <artifactId>jd-item-service</artifactId>
+  <groupId>com.jd</groupId>
+  <artifactId>jd-user-web</artifactId>
+  <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <dependencies>
     <dependency>
-      <artifactId>jd-search-interface</artifactId>
       <groupId>com.jd</groupId>
+      <artifactId>jd-user-interface</artifactId>
       <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <artifactId>jd-item-interface</artifactId>
-      <groupId>com.jd</groupId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <!-- MySql -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
-    <!-- 连接池(阿里巴巴的德鲁伊) -->
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid</artifactId>
     </dependency>
     <!-- Spring -->
     <dependency>
@@ -68,8 +54,8 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
     </dependency>
-    <!-- dubbox:生成静态页面的工程，不会跟其它功能耦合，那么系统之间的通信不再使用dubbox通信,将使用activemq实现异步通信 -->
-    <!--<dependency>
+    <!-- dubbox相关 -->
+    <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>dubbo</artifactId>
     </dependency>
@@ -80,30 +66,16 @@
     <dependency>
       <groupId>com.github.sgroschupf</groupId>
       <artifactId>zkclient</artifactId>
-    </dependency>-->
+    </dependency>
     <!--javassist-->
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
     </dependency>
+    <!--jackson-->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-    </dependency>
-    <!-- 做网页静态化 -->
-    <dependency>
-      <groupId>org.freemarker</groupId>
-      <artifactId>freemarker</artifactId>
-    </dependency>
-    <!-- 消息中间件(系统之间的异步通信) -->
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-all</artifactId>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
   </dependencies>
 
@@ -113,7 +85,7 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
-          <port>9236</port>
+          <port>31001</port>
           <path>/</path>
           <uriEncoding>utf-8</uriEncoding>
         </configuration>

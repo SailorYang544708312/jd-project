@@ -7,15 +7,12 @@
     http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     
     <!--配置dubbox-->
-    <dubbo:application name="JD-item-Service"/>
-
-    <!-- 暴露服务的端口号 -->
-    <dubbo:protocol name="dubbo" port="23344"/>
+    <dubbo:application name="JD-user-web"/>
 
     <!--指定注册中心的地址-->
     <dubbo:registry address="zookeeper://192.168.126.132:2181"/>
 
-    <!--使用dubbo的注解服务 暴露借口实现类的扫描-->
-    <dubbo:annotation package="com.jd.item.service.impl"/>
+    <!--使用dubbo的注解服务 扫描地址-->
+    <dubbo:annotation package="com.jd.user.controller"/>
 
 </beans>
