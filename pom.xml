@@ -65,6 +65,7 @@
         <javassist.version>3.12.1.GA</javassist.version>
         <spring-security.version>4.2.3.RELEASE</spring-security.version>
         <fastjson.version>1.2.47</fastjson.version>
+        <cas-client-core-version>3.4.1</cas-client-core-version>
     </properties>
     <!-- 管理jar包的版本 -->
     <dependencyManagement>
@@ -315,12 +316,12 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-cas</artifactId>
-                <version>5.1.2.RELEASE</version>
+                <version>${spring-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jasig.cas.client</groupId>
                 <artifactId>cas-client-core</artifactId>
-                <version>3.4.1</version>
+                <version>${cas-client-core-version}</version>
                 <!-- 排除log4j包冲突 -->
                 <exclusions>
                     <exclusion>
