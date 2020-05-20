@@ -21,7 +21,7 @@
 	<script type="text/javascript" src="js/controller/contentController.js"></script>
 </head>
 
-<body ng-app="jd" ng-controller="contentController" ng-init="findByCategoryId(1);findByCategoryId(6)">
+<body ng-app="jd" ng-controller="contentController" ng-init="findByCategoryId(1);findByCategoryId(6);showName()">
 <!-- 头部栏位 -->
 <!-- 页面顶部 -->
 <div id="nav-bottom">
@@ -32,7 +32,12 @@
 				<div class="shortcut">
 					<ul class="fl">
 						<li class="f-item">京东欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+						<li class="f-item" ng-if="loginName == null || loginName == ''">
+							请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span>
+						</li>
+						<li class="f-item" ng-if="loginName != null && loginName != ''">
+							欢迎:{{loginName}}
+						</li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>

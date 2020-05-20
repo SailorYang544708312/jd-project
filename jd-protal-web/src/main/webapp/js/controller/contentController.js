@@ -13,4 +13,12 @@ app.controller('contentController',function ($scope,contentService) {
         location.href = "http://localhost:9235/search.html#?keywords="+$scope.keywords;
     }
 
+    //获取到当前登录的用户名
+    $scope.showName = function () {
+        contentService.showName().success(function (response) {
+            $scope.loginName = response.loginName;
+            //alert($scope.loginName);
+        })
+    }
+
 })

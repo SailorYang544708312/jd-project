@@ -102,6 +102,11 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-cas</artifactId>
     </dependency>
+    <!--fastJson工具-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

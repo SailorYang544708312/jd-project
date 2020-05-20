@@ -109,7 +109,7 @@
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
         <configuration>
-          <port>9236</port>
+          <port>9237</port>
           <path>/</path>
           <uriEncoding>utf-8</uriEncoding>
         </configuration>

@@ -27,6 +27,9 @@
         <module>jd-user-interface</module>
         <module>jd-user-service</module>
         <module>jd-user-web</module>
+        <module>jd-cart-interface</module>
+        <module>jd-cart-service</module>
+        <module>jd-cart-web</module>
     </modules>
     <packaging>pom</packaging>
 
