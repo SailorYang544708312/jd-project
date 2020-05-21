@@ -19,14 +19,15 @@
 
 </head>
 
-<body ng-app="jd" ng-controller="cartController" ng-init="findCartList()">
+<body ng-app="jd" ng-controller="cartController" ng-init="findCartList();showName()">
 	<!--head-->
 	<div class="top">
 		<div class="py-container">
 			<div class="shortcut">
 				<ul class="fl">
 					<li class="f-item">京东欢迎您！</li>
-					<li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
+					<li class="f-item" ng-if="loginName==null || loginName==''"><a href="login.html">请登录</a>　<span><a href="#">免费注册</a></span></li>
+					<li class="f-item" ng-if="loginName!=null || loginName!=''">欢迎您:{{loginName}}&nbsp;&nbsp;<a href="/logout/cas">注销</a></li>
 				</ul>
 				<ul class="fr">
 					<li class="f-item">我的订单</li>

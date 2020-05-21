@@ -89,8 +89,21 @@ public class CartServiceImpl implements CartService {
 
    @Override
    public void saveCartToRedis(String username, List<Cart> cartList) {
-      System.out.println("像redis中存入购物车数据");
+      System.out.println("向redis中存入购物车数据");
       redisTemplate.boundHashOps("cartList").put(username,cartList);
+   }
+
+   @Override
+   public List<Cart> mergeCartList(List<Cart> cartList1, List<Cart> cartList2) {
+      System.out.println("合并购物车");
+      //遍历购物车（随便是遍历cookie的购物车或者是redis的购物车都行）
+      for (Cart cart : cartList2) {
+         for(TbOrderItem orderItem:cart.getOrderItemList()){
+            //添加到cartList1中
+            cartList1 = addGoodsToCartList(cartList1,orderItem.getItemId(),orderItem.getNum());
+         }
+      }
+      return cartList1;
    }
 
    /**

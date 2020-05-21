@@ -22,4 +22,12 @@ public interface CartService {
     * @param cartList
     */
    void saveCartToRedis(String username,List<Cart> cartList);
+
+   /**
+    * 合拼购物车
+    * @param cartList1
+    * @param cartList2
+    * @return
+    */
+   List<Cart> mergeCartList(List<Cart> cartList1,List<Cart> cartList2);
 }

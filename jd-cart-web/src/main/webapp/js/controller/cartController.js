@@ -18,4 +18,12 @@ app.controller('cartController',function ($scope,cartService) {
             }
         })
     }
+
+    //获取到当前登录的用户名
+    $scope.showName = function () {
+        contentService.showName().success(function (response) {
+            $scope.loginName = response.loginName;
+            //alert($scope.loginName);
+        })
+    }
 })
