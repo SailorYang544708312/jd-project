@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--配置dubbox-->
+    <dubbo:application name="JD-Order-Service"/>
+
+    <!-- 暴露服务的端口号 -->
+    <dubbo:protocol name="dubbo" port="38214"/>
+
+    <!--指定注册中心的地址-->
+    <dubbo:registry address="zookeeper://192.168.126.132:2181"/>
+
+    <!--使用dubbo的注解服务 暴露借口实现类的扫描-->
+    <dubbo:annotation package="com.jd.order.service.impl"/>
+
+</beans>

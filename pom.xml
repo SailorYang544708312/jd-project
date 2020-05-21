@@ -30,6 +30,8 @@
         <module>jd-cart-interface</module>
         <module>jd-cart-service</module>
         <module>jd-cart-web</module>
+        <module>jd-order-interface</module>
+        <module>jd-order-service</module>
     </modules>
     <packaging>pom</packaging>
 

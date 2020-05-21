@@ -7,12 +7,11 @@ import com.jd.common.pojo.JdResult;
 import com.jd.common.utils.CookieUtil;
 import com.jd.pojogroup.Cart;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,18 +29,19 @@ public class CartController {
       //获取到当前登录人账号
       String username = SecurityContextHolder.getContext().getAuthentication().getName();
       System.out.println(username);
-      List<Cart> cartList_cookie = new ArrayList<>();//cookie中的购物车
+
+      //从cookie中获取到购物车
+      String cartListString = CookieUtil.getCookieValue(request, "cartList", "UTF-8");
+      //判断购物车是否存在
+      if(cartListString == null || cartListString.equals("")){
+         //不存在
+         cartListString = "[]";
+      }
+      //存在,要么同上上面的代码创建了一个空的，要么是本身已经在cookie中有
+      List<Cart> cartList_cookie = JSON.parseArray(cartListString, Cart.class);
+
       if(username.equals("anonymousUser")){
          //未登录
-         //从cookie中获取到购物车
-         String cartListString = CookieUtil.getCookieValue(request, "cartList", "UTF-8");
-         //判断购物车是否存在
-         if(cartListString == null || cartListString.equals("")){
-            //不存在
-            cartListString = "[]";
-         }
-         //存在,要么同上上面的代码创建了一个空的，要么是本身已经在cookie中有
-         cartList_cookie = JSON.parseArray(cartListString, Cart.class);
          return cartList_cookie;
       } else {
          //已经登录
@@ -65,9 +65,17 @@ public class CartController {
 
    /**
     * 添加商品到购物车
+    * CrossOrigin(origins = "http://localhost:9632",allowCredentials = "true")的allowCredentials = "true" 可以省略 在注解里默认就是 true
     */
    @RequestMapping("addGoodsToCartList")
+   @CrossOrigin(origins = "http://localhost:9632")
    public JdResult addGoodsToCartList(Long itemId,Integer num,HttpServletRequest request,HttpServletResponse response){
+      //添加头信息,让我们的请求支持跨域请求(js的跨域请求)
+      //头信息的key是Access-Control-Allow-Origin(表示请求跨域) values是具体的跨域地址(可以写成*,表示允许所有的url都跨域)
+      //response.setHeader("Access-Control-Allow-Origin","http://localhost:9632");
+      //如果涉及到cookie的操作,还得加上另一个头信息,如果value为true就表示允许跨域做cookie的操作(如果上面跨域允许的url是* 那么就无法实现cookie的操作)
+      //response.setHeader("Access-Control-Allow-Credentials","true");
+
       String username = SecurityContextHolder.getContext().getAuthentication().getName();
       try {
          //获取到cookie购物车列表
@@ -88,4 +96,5 @@ public class CartController {
          return new JdResult(false, "添加商品到购物车失败", null);
       }
    }
+
 }
