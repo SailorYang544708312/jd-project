@@ -32,6 +32,8 @@
         <module>jd-cart-web</module>
         <module>jd-order-interface</module>
         <module>jd-order-service</module>
+        <module>jd-pay-interface</module>
+        <module>jd-pay-service</module>
     </modules>
     <packaging>pom</packaging>
 

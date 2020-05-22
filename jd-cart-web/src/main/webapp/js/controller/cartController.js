@@ -70,10 +70,10 @@ app.controller('cartController',function ($scope,cartService) {
         cartService.submitOrder($scope.order).success(function (response) {
             if ($scope.order.paymentType == '1'){
                 //表示微信支付
-                location.href = "http://localhost:9240/pay.html";
+                location.href = "pay.html";
             }else {
                 //货到付款
-                location.href = "paysuccess.html";
+                location.href = "paysuccess-1.html";
             }
         });
     }

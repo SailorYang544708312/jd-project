@@ -3,6 +3,8 @@ import java.util.List;
 import com.jd.pojo.TbOrder;
 
 import com.jd.common.pojo.PageResult;
+import com.jd.pojo.TbPayLog;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -57,5 +59,18 @@ public interface OrderService {
 	 * @return
 	 */
 	public PageResult findPage(TbOrder order, int pageNum,int pageSize);
-	
+
+	/**
+	 * 从redis根据用户名查询支付日志
+	 * @param userId
+	 * @return
+	 */
+	TbPayLog searchPayLogFromRedis(String userId);
+
+	/**
+	 * 修改订单状态
+	 * @param out_trade_no		支付订单号
+	 * @param transaction_id	微信交易流水号
+	 */
+	void updateOrderStatus(String out_trade_no,String transaction_id);
 }
