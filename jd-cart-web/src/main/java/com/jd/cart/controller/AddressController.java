@@ -86,14 +86,19 @@ public class AddressController {
 	
 	/**
 	 * 批量删除
-	 * @param ids
+	 * @param id
+	 * @return
+	 */
+	/**
+	 * 删除一个
+	 * @param id
 	 * @return
 	 */
 	@RequestMapping("/delete")
-	public JdResult delete(Long [] ids){
+	public JdResult delete(Long id){
 		try {
-			addressService.delete(ids);
-			return new JdResult(true, "删除成功" ,null); 
+			addressService.delete(id);
+			return new JdResult(true, "删除成功" ,null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new JdResult(false, "删除失败" ,null);

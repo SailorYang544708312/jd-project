@@ -45,6 +45,11 @@ app.controller('cartController',function ($scope,cartService) {
     $scope.selectAddress = function (address) {
         $scope.address = address;
     }
+
+    $scope.selectUpdateAddress = function(address){
+        $scope.updateaddress = address;
+    }
+
     //判断是否选择是当前地址
     $scope.isSelectedAddress = function (address) {
         if (address == $scope.address){
@@ -52,6 +57,41 @@ app.controller('cartController',function ($scope,cartService) {
         }else {
             return false;
         }
+    }
+
+    //保存地址
+    $scope.saveAddress=function(){
+        $scope.updateaddress.userId=$scope.address.userId;
+        var serviceObject;//服务层对象
+        if($scope.updateaddress.id!=null){//如果有ID
+            serviceObject=cartService.updateAddress( $scope.updateaddress); //修改
+        }else{
+            serviceObject=cartService.addAddress( $scope.updateaddress);//增加
+        }
+        serviceObject.success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    $scope.findAddressList();
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+    }
+    $scope.selectIds = [];
+
+    //删除 一个
+    $scope.deleAddress=function(id){
+        //获取选中的复选框
+        cartService.deleAddress( id ).success(
+            function(response){
+                if(response.success){
+                    //重新查询
+                    $scope.findAddressList();
+                }
+            }
+        );
     }
 
     //定义一个对象
@@ -77,5 +117,7 @@ app.controller('cartController',function ($scope,cartService) {
             }
         });
     }
+
+
 
 })

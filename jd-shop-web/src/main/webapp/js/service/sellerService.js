@@ -30,8 +30,8 @@ app.service('sellerService',function($http){
 		return $http.post('../seller/search?page='+page+"&rows="+rows, searchEntity);
 	}
 
-	/*//登录
+	//登录
 	this.userLogin = function (username,password) {
-		return $http.post('../login/name?username='+username+'&password'+password);
-	}*/
+		return $http.post('../login?username='+username+'&password'+password);
+	}
 });

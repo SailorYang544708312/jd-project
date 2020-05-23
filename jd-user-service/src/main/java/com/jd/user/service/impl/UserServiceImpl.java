@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
 			public Message createMessage(Session session) throws JMSException {
 				MapMessage mapMessage = session.createMapMessage();
 				mapMessage.setString("mobile", phone);//手机号
-				mapMessage.setString("code", code);//验证码(验证码如果这么玩会导致阿里大于拿不到)
+				mapMessage.setString("code", code);//验证码
 				mapMessage.setString("sign", "咧嘴小怪兽");//签名
 				mapMessage.setString("templateName", "SMS_183796269");//模板
 				/*Map<String, String> map = new HashMap<>();
@@ -198,6 +198,7 @@ public class UserServiceImpl implements UserService {
 		if(!sysCode.equals(code)){
 			return new JdResult(false, "验证码输入错误", null);
 		}
+
 		return JdResult.ok();
 	}
 

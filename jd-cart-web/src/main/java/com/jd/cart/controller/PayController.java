@@ -26,7 +26,7 @@ public class PayController {
 
    @RequestMapping("createNative")
    public Map<String,String> createNative(){
-      IdWorker idWorker = new IdWorker();
+      //IdWorker idWorker = new IdWorker();
       //实际的情况应该是:订单id应该是从后台拿的数据,应该支付的金额也应该是购物车中的商品的总金额(而不是死数据)
       //return weiXinPayService.createNative(idWorker.nextId()+"","1");
       //生成订单后，将redis中的数据清空,然后将数据添加到order和orderItem表中

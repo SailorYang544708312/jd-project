@@ -11,6 +11,10 @@ import java.util.Map;
 @RequestMapping("login")
 public class LoginController {
 
+   /**
+    * 专门用于springSecurity支持
+    * @return
+    */
    @RequestMapping("name")
    public Map<String,String> name(){
       //从springSecurity中取出当前配置登录的用户

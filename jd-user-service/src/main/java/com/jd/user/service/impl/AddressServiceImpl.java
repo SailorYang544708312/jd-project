@@ -1,4 +1,5 @@
 package com.jd.user.service.impl;
+import java.util.Date;
 import java.util.List;
 
 import com.jd.user.service.AddressService;
@@ -46,7 +47,30 @@ public class AddressServiceImpl implements AddressService {
 	 */
 	@Override
 	public void add(TbAddress address) {
-		addressMapper.insert(address);		
+		address.setCreateDate(new Date());//创建时间
+		//判断是否为默认
+		if("1".equals(address.getIsDefault())){
+			//如果新增的选择了默认，那么之前的默认要改为0
+			List<TbAddress> list = findListByUserId(address.getUserId());
+			TbAddress tbAddress = checkHasDefault(list);
+			if(tbAddress != null){
+				//表示之前有默认地址，那么将该地址改为0
+				tbAddress.setIsDefault("0");
+				addressMapper.updateByPrimaryKey(tbAddress);//更新到数据库
+			}
+		}
+		//添加到数据库
+		addressMapper.insert(address);
+	}
+
+	//判断当前的userid中是否有默认地址
+	private TbAddress checkHasDefault(List<TbAddress> list){
+		for (TbAddress tbAddress : list) {
+			if("1".equals(tbAddress.getIsDefault())){
+				return tbAddress;
+			}
+		}
+		return null;
 	}
 
 	
@@ -55,9 +79,20 @@ public class AddressServiceImpl implements AddressService {
 	 */
 	@Override
 	public void update(TbAddress address){
+		//判断是否为默认
+		if("1".equals(address.getIsDefault())){
+			//如果新增的选择了默认，那么之前的默认要改为0
+			List<TbAddress> list = findListByUserId(address.getUserId());
+			TbAddress tbAddress = checkHasDefault(list);
+			if(tbAddress != null){
+				//表示之前有默认地址，那么将该地址改为0
+				tbAddress.setIsDefault("0");
+				addressMapper.updateByPrimaryKey(tbAddress);//更新到数据库
+			}
+		}
 		addressMapper.updateByPrimaryKey(address);
-	}	
-	
+	}
+
 	/**
 	 * 根据ID获取实体
 	 * @param id
@@ -77,9 +112,13 @@ public class AddressServiceImpl implements AddressService {
 			addressMapper.deleteByPrimaryKey(id);
 		}		
 	}
-	
-	
-		@Override
+
+	@Override
+	public void delete(Long id) {
+		addressMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
 	public PageResult findPage(TbAddress address, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		

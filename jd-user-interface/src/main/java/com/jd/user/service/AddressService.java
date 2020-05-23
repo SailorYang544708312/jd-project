@@ -51,6 +51,12 @@ public interface AddressService {
 	public void delete(Long [] ids);
 
 	/**
+	 * 删除一个
+	 * @param id
+	 */
+	public void delete(Long id);
+
+	/**
 	 * 分页
 	 * @param pageNum 当前页 码
 	 * @param pageSize 每页记录数

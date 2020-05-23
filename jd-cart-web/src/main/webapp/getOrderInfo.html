@@ -66,17 +66,17 @@
 			<div class="checkout-steps">
 				<!--收件人信息-->
 				<div class="step-tit">
-					<h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd" ng-click="selectAddress()">新增收货地址</a></span></h5>
+					<h5>收件人信息<span><a data-toggle="modal" data-target=".edit" data-keyboard="false" class="newadd" ng-click="updateaddress={}">新增收货地址</a></span></h5>
 				</div>
 				<div class="step-cont">
 					<div class="addressInfo">
 						<ul class="addr-detail">
 							<li class="addr-item">
 							  <div ng-repeat="address in addressList">
-								<div class="con name {{isSelectedAddress(address)?'selected':''}}"><a href="javascript:;" ng-click="selectAddress(address)">{{address.contact}}<span title="点击取消选择"/>&nbsp;</a></div>
+								<div class="con name {{isSelectedAddress(address)?'selected':''}}"><a  ng-click="selectAddress(address)">{{address.contact}}<span title="点击取消选择"/>&nbsp;</a></div>
 								<div class="con address">{{address.contact}} {{address.address}} <span>{{address.mobile}}</span>
 									<span class="base" ng-if="address.isDefault == 1">默认地址</span>
-									<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" ng-click="selectAddress(address)" >编辑</a>&nbsp;&nbsp;<a href="javascript:;">删除</a></span>
+									<span class="edittext"><a data-toggle="modal" data-target=".edit" data-keyboard="false" ng-click="selectUpdateAddress(address)">编辑</a>&nbsp;&nbsp;<a href="javascript:;" ng-click="deleAddress(address.id)">删除</a></span>
 								</div>
 								<div class="clearfix"></div>
 							  </div>
@@ -97,31 +97,31 @@
 											<div class="control-group">
 												<label class="control-label">收货人：</label>
 												<div class="controls">
-													<input type="text" class="input-medium" ng-model="address.contact">
+													<input type="text" class="input-medium" ng-model="updateaddress.contact">
 												</div>
 											</div>
 											<div class="control-group">
 												<label class="control-label">详细地址：</label>
 												<div class="controls">
-													<input type="text" class="input-large" ng-model="address.address">
+													<input type="text" class="input-large" ng-model="updateaddress.address">
 												</div>
 											</div>
 											<div class="control-group">
 												<label class="control-label">联系电话：</label>
 												<div class="controls">
-													<input type="text" class="input-medium" ng-model="address.mobile">
+													<input type="text" class="input-medium" ng-model="updateaddress.mobile">
 												</div>
 											</div>
 											<div class="control-group">
 												<label class="control-label">设置为默认地址：</label>
 												<div class="controls">
-													<input type="checkbox" class="input-medium" >
+													<input type="checkbox" ng-model="updateaddress.isDefault" ng-true-value="1" ng-false-value="0" class="input-medium">
 												</div>
 											</div>
 											<div class="control-group">
 												<label class="control-label">地址别名：</label>
 												<div class="controls">
-													<input type="text" class="input-medium" ng-model="address.alias">
+													<input type="text" class="input-medium" ng-model="updateaddress.alias">
 												</div>
 												<div class="othername">
 													建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -130,7 +130,7 @@
 										</form>
 									</div>
 									<div class="modal-footer">
-										<button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+										<button type="button" data-ok="modal" ng-click="saveAddress()" class="sui-btn btn-primary btn-large">确定</button>
 										<button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
 									</div>
 								</div>

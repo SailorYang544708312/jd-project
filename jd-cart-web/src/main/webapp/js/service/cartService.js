@@ -38,8 +38,23 @@ app.service('cartService',function ($http) {
         return $http.get('address/findListByLoginUser')
     }
 
+    //增加地址
+    this.addAddress=function(entity){
+        return  $http.post('address/add',entity);
+    }
+    //修改 地址
+    this.updateAddress=function(entity){
+        return  $http.post('address/update',entity);
+    }
+    //删除地址
+    this.deleAddress=function(id){
+        return $http.get('address/delete?id='+id);
+    }
+
     //提交订单
     this.submitOrder = function (order) {
         return $http.post('order/add',order);
     }
+
+
 })

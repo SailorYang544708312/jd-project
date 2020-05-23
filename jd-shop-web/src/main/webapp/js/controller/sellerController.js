@@ -1,5 +1,5 @@
  //控制层 
-app.controller('sellerController' ,function($scope,$controller   ,sellerService){	
+app.controller('sellerController' ,function($scope,$controller,sellerService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -89,7 +89,7 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 		})
 	}
 
-	/*//登录
+	//登录
 	$scope.message="";
 	$scope.userLogin = function () {
 		sellerService.userLogin($scope.username,$scope.password).success(function (response) {
@@ -100,6 +100,6 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 				$scope.message = response.message;
 			}
 		})
-	}*/
+	}
 
 });	

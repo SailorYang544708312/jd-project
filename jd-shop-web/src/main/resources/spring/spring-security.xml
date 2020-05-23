@@ -36,8 +36,8 @@
     <authentication-manager>
         <authentication-provider user-service-ref="userDetailsService">
             <!--<user-service>
-                <user name="admin" password="{noop}123123" authorities="ROLE_ADMIN"/>
-                <user name="sailor" password="{noop}626426" authorities="ROLE_ADMIN"/>
+                <user name="admin" password="123123" authorities="ROLE_ADMIN"/>
+                <user name="sailor" password="626426" authorities="ROLE_ADMIN"/>
             </user-service>-->
             <password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>
