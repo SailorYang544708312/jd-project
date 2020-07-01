@@ -68,7 +68,7 @@
         <zkclient.version>0.1</zkclient.version>
         <activemq.version>5.10.0</activemq.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <quartz.version>2.3.0</quartz.version>
+        <quartz.version>2.3.2</quartz.version>
         <javassist.version>3.12.1.GA</javassist.version>
         <spring-security.version>4.2.3.RELEASE</spring-security.version>
         <fastjson.version>1.2.47</fastjson.version>
