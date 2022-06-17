@@ -71,7 +71,7 @@
         <quartz.version>2.3.0</quartz.version>
         <javassist.version>3.12.1.GA</javassist.version>
         <spring-security.version>4.2.3.RELEASE</spring-security.version>
-        <fastjson.version>1.2.47</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <cas-client-core-version>3.4.1</cas-client-core-version>
     </properties>
     <!-- 管理jar包的版本 -->
